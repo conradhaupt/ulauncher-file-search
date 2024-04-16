@@ -64,11 +64,15 @@ class FileSearchExtension(Extension):
                                    stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE)
 
+        self.logger.warning("Communicating subprocess")
         out, err = process.communicate()
 
         if err:
+            self.logger.error("Completed WITH error!")
             self.logger.error(err)
             return []
+        else:
+            self.logger.warning("Completed without error")
 
         files = out.split('\n'.encode())
         files = list([_f for _f in files if _f])  # remove empty lines
